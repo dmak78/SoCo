@@ -371,7 +371,7 @@ class SoCo(object):
 
         """
         if volume is not None:
-            volume = max(0, min(volume, 100)) # Coerce in range
+            volume = max(0, min(int(volume), 100)) # Coerce in range
             body = SET_VOLUME_BODY_TEMPLATE.format(volume=volume)
 
             response = self.__send_command(RENDERING_ENDPOINT, SET_VOLUME_ACTION, body)
@@ -686,6 +686,12 @@ class SoCo(object):
                 track['album_art'] = 'http://' + self.speaker_ip + ':1400' + metadata.findtext('.//{urn:schemas-upnp-org:metadata-1-0/upnp/}albumArtURI')
 
         return track
+
+    def testing(self):
+        current_track_info = self.get_current_track_info()
+        current_volume = self.volume()
+
+        return current_volume
 
     def get_speaker_info(self, refresh=False):
         """ Get information about the Sonos speaker.
